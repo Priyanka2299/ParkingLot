@@ -9,6 +9,7 @@ import com.mycompany.parkinglot.models.ParkingLot;
 import com.mycompany.parkinglot.models.ParkingSlot;
 import com.mycompany.parkinglot.models.ParkingSlotStatus;
 import com.mycompany.parkinglot.models.VehicleType;
+import java.util.Optional;
 
 /**
  *
@@ -16,12 +17,12 @@ import com.mycompany.parkinglot.models.VehicleType;
  */
 public class RandomSlotAssignmentStrategy implements SlotAssignmentStrategy{
     @Override
-    public ParkingSlot assignSlot(ParkingLot parkingLot, VehicleType vehicleType){
+    public Optional<ParkingSlot> assignSlot(ParkingLot parkingLot, VehicleType vehicleType){
         for(ParkingFloor parkingFloor: parkingLot.getParkingFloors()){
             for(ParkingSlot parkingSlot: parkingFloor.getParkingSlots()){
                 if(parkingSlot.getParkingSlotStatus().equals(ParkingSlotStatus.EMPTY)
-                        && parkingSlot.getVehicleType().equals(vehicleType)){
-                    return parkingSlot;
+                    && parkingSlot.getVehicleType().equals(vehicleType)){
+                    return Optional.of(parkingSlot);
                 }
             }
         }

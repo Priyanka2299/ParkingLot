@@ -7,13 +7,14 @@ package com.mycompany.parkinglot.strategies;
 import com.mycompany.parkinglot.models.ParkingLot;
 import com.mycompany.parkinglot.models.ParkingSlot;
 import com.mycompany.parkinglot.models.VehicleType;
+import java.util.Optional;
 
 /**
  *
  * @author EMF
  */
 public interface SlotAssignmentStrategy {
-    public ParkingSlot assignSlot(ParkingLot parkingLot, VehicleType vehicleType);
+    public Optional<ParkingSlot> assignSlot(ParkingLot parkingLot, VehicleType vehicleType);
     
      
 }

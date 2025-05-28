@@ -17,6 +17,7 @@ public class TicketRepository {
     private static int previousId = 0;
     public Ticket save(Ticket ticket){        //since saving to a db require an id which is created automatically Instead we can use counter
         ticket.setId(previousId++);
+        ticket.setNumber("TICKET#" + previousId);
         tickets.put(ticket.getId(), ticket);
         return ticket;
     }

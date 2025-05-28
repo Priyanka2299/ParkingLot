@@ -11,7 +11,7 @@ import com.mycompany.parkinglot.models.SlotAssignmentStrategyType;
  * @author EMF
  */
 public class SlotAssignmentStrategyFactory {
-    public static SlotAssignmentStrategy getSlotAssignmentStrategyByType(SlotAssignmentStrategy type){
+    public static SlotAssignmentStrategy getSlotAssignmentStrategyByType(SlotAssignmentStrategyType type){
         if(type.equals(SlotAssignmentStrategyType.RANDOM)){
             return new RandomSlotAssignmentStrategy();
         }

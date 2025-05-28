@@ -11,6 +11,12 @@ import com.mycompany.parkinglot.models.Vehicle;
 import com.mycompany.parkinglot.repositories.ParkingLotRepository;
 import com.mycompany.parkinglot.repositories.VehicleRepository;
 import com.mycompany.parkinglot.models.ParkingLot;
+import com.mycompany.parkinglot.models.ParkingSlot;
+import com.mycompany.parkinglot.strategies.SlotAssignmentStrategyFactory;
+import com.mycompany.parkinglot.models.*;
+import com.mycompany.parkinglot.repositories.TicketRepository;
+import java.util.Date;
+
 
 
 import java.util.Optional;
@@ -19,14 +25,17 @@ public class TicketService {
     private GateRepository gateRepository;
     private VehicleRepository vehicleRepository;
     private ParkingLotRepository parkingLotRepository;
+    private TicketRepository ticketRepository;
     
     public TicketService(
             GateRepository gateRepository,
-            VehicleRepository vehicleRepository
+            VehicleRepository vehicleRepository,
+            TicketRepository ticketRepository
     ){
         this.gateRepository = gateRepository;
         this.vehicleRepository = vehicleRepository;
         this.parkingLotRepository = parkingLotRepository;
+        this.ticketRepository = ticketRepository;
     }
     
     public Ticket issueTicket(
@@ -58,8 +67,8 @@ public class TicketService {
                 vehicle = vehicleOptional.get();
             }
 //        4.Assign Slot
-            Optional<ParkingLot> parkingLot = parkingLotRepository.findById(parkingLotId);
-                if(parkingLot.isEmpty()){
+            Optional<ParkingLot> parkingLotOptional = parkingLotRepository.findById(parkingLotId);
+                if(parkingLotOptional.isEmpty()){
                     throw new RuntimeException("Invalid ParkingLot Found");
                 }
                 ParkingLot parkingLot = parkingLotOptional.get();
@@ -73,12 +82,13 @@ public class TicketService {
             ticket.setGate(gate);
             ticket.setOperator(gate.getOperator());
             ticket.setEntryTime(new Date());
-            ticket.setParkingSlot(parkingSlot);
+            ticket.setParkingSlot(parkingSlotOptional.get());
 //        6. save ticket object in the database
+            
 
 
 
         
-        return null;
+        return ticketRepository.save(ticket);
     }
 }
