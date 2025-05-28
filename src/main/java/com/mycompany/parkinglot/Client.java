@@ -8,7 +8,7 @@ package com.mycompany.parkinglot;
  *
  * @author EMF
  */
-public class ParkingLot {
+public class Client {
 
     public static void main(String[] args) {
         System.out.println("Hello World!");

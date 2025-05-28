@@ -28,7 +28,8 @@ public class TicketController {
             request.getVehicleNUmber(),
             request.getOwnerName(),
             request.getVehicleType(),
-            request.getGateId()
+            request.getGateId(),
+            request.getParkingLotId()
             );
             response.setTicket(ticket);
             response.setResponseStatus(ResponseStatus.SUCCESS);

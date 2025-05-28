@@ -7,18 +7,34 @@ import com.mycompany.parkinglot.models.Ticket;
 import com.mycompany.parkinglot.models.VehicleType;
 import com.mycompany.parkinglot.repositories.GateRepository;
 import com.mycompany.parkinglot.models.Gate;
+import com.mycompany.parkinglot.models.Vehicle;
+import com.mycompany.parkinglot.repositories.ParkingLotRepository;
+import com.mycompany.parkinglot.repositories.VehicleRepository;
+import com.mycompany.parkinglot.models.ParkingLot;
+
 
 import java.util.Optional;
  
 public class TicketService {
     private GateRepository gateRepository;
+    private VehicleRepository vehicleRepository;
+    private ParkingLotRepository parkingLotRepository;
     
+    public TicketService(
+            GateRepository gateRepository,
+            VehicleRepository vehicleRepository
+    ){
+        this.gateRepository = gateRepository;
+        this.vehicleRepository = vehicleRepository;
+        this.parkingLotRepository = parkingLotRepository;
+    }
     
     public Ticket issueTicket(
             String vehicleNumber,
             String ownerName,
             VehicleType vehicleType,
-            int gateId){
+            int gateId,
+            int parkingLotId){
             
 //        1.Get the corresponding Gate object for gateId
             Optional<Gate> gateOptional = gateRepository.findGateById(gateId);
@@ -26,10 +42,38 @@ public class TicketService {
                 throw new RuntimeException("Invalid Gate Found");
             }
             Gate gate = gateOptional.get();
+            
 //        2. Get the corresponding vehicle Object
+            Optional<Vehicle> vehicleOptional = vehicleRepository.findByVehicleNumber(vehicleNumber);
+            
 //        3.If vehicle doesn't already create one object
+            Vehicle vehicle = null;
+            if(vehicleOptional.isEmpty()){
+                vehicle = new Vehicle();
+                vehicle.setVehicleType(vehicleType);
+                vehicle.setOwnerName(ownerName);
+                vehicle.setLicenseNumber(vehicle.getLicenseNumber());
+                vehicle = vehicleRepository.save(vehicle);
+            }else{
+                vehicle = vehicleOptional.get();
+            }
 //        4.Assign Slot
+            Optional<ParkingLot> parkingLot = parkingLotRepository.findById(parkingLotId);
+                if(parkingLot.isEmpty()){
+                    throw new RuntimeException("Invalid ParkingLot Found");
+                }
+                ParkingLot parkingLot = parkingLotOptional.get();
+            Optional <ParkingSlot> parkingSlotOptional = SlotAssignmentStrategyFactory
+                    .getSlotAssignmentStrategyByType(parkingLot.getSlotAssignmentStrategyType())
+                    .assignSlot(parkingLot, vehicleType);
+            
 //        5. ticket object creation
+            Ticket ticket = new Ticket();
+            ticket.setVehicle(vehicle);
+            ticket.setGate(gate);
+            ticket.setOperator(gate.getOperator());
+            ticket.setEntryTime(new Date());
+            ticket.setParkingSlot(parkingSlot);
 //        6. save ticket object in the database
 
 
