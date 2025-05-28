@@ -12,7 +12,7 @@ import com.mycompany.parkinglot.models.VehicleType;
  */
 public class IssueTicketRequestDTO {
     private int gateId;
-    private String vehicleNUmber;
+    private String vehicleNumber;
     private String ownerName;
     private VehicleType vehicleType;
     private int parkingLotId;
@@ -33,12 +33,12 @@ public class IssueTicketRequestDTO {
         this.gateId = gateId;
     }
 
-    public String getVehicleNUmber() {
-        return vehicleNUmber;
+    public String getVehicleNumber() {
+        return vehicleNumber;
     }
 
-    public void setVehicleNUmber(String vehicleNUmber) {
-        this.vehicleNUmber = vehicleNUmber;
+    public void setVehicleNumber(String vehicleNumber) {
+        this.vehicleNumber = vehicleNumber;
     }
 
     public String getOwnerName() {

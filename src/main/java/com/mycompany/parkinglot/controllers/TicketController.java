@@ -25,7 +25,7 @@ public class TicketController {
         IssueTicketResponseDTO response = new IssueTicketResponseDTO();
         try {
             Ticket ticket = ticketService.issueTicket(
-            request.getVehicleNUmber(),
+            request.getVehicleNumber(),
             request.getOwnerName(),
             request.getVehicleType(),
             request.getGateId(),
@@ -36,8 +36,10 @@ public class TicketController {
             response.setMessage("Ticket Generated Successfully");
             
         }catch(Exception ex){
+
             response.setResponseStatus(ResponseStatus.FAILURE);
             response.setMessage(ex.getMessage());
+            
         }
         return response;
     }

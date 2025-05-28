@@ -3,7 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package com.mycompany.parkinglot.repositories;
-import com.mycompany.parkinglot.models.Vehicle;
+import com.mycompany.parkinglot.models.*;
 import java.util.Map;
 import java.util.Optional;
 import java.util.TreeMap;
@@ -14,6 +14,8 @@ import java.util.TreeMap;
  */
 public class VehicleRepository {
     private Map<String, Vehicle> vehicles = new TreeMap<>();
+    
+
     private static int previousId =0;
 //    vehicle# is same as license#
     public Optional<Vehicle> findByVehicleNumber(String licenseNumber){

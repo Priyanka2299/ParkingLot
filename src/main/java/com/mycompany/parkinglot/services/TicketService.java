@@ -30,6 +30,7 @@ public class TicketService {
     public TicketService(
             GateRepository gateRepository,
             VehicleRepository vehicleRepository,
+            ParkingLotRepository parkingLotRepository,
             TicketRepository ticketRepository
     ){
         this.gateRepository = gateRepository;
@@ -61,7 +62,7 @@ public class TicketService {
                 vehicle = new Vehicle();
                 vehicle.setVehicleType(vehicleType);
                 vehicle.setOwnerName(ownerName);
-                vehicle.setLicenseNumber(vehicle.getLicenseNumber());
+                vehicle.setLicenseNumber(vehicleNumber);
                 vehicle = vehicleRepository.save(vehicle);
             }else{
                 vehicle = vehicleOptional.get();
@@ -75,6 +76,9 @@ public class TicketService {
             Optional <ParkingSlot> parkingSlotOptional = SlotAssignmentStrategyFactory
                     .getSlotAssignmentStrategyByType(parkingLot.getSlotAssignmentStrategyType())
                     .assignSlot(parkingLot, vehicleType);
+            if(parkingSlotOptional.isEmpty()){
+                throw new RuntimeException("No ParkingSlot found");
+            }
             
 //        5. ticket object creation
             Ticket ticket = new Ticket();

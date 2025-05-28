@@ -26,7 +26,7 @@ public class RandomSlotAssignmentStrategy implements SlotAssignmentStrategy{
                 }
             }
         }
-        return null;
+        return Optional.empty();
     
     }
 }
